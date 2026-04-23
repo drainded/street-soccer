@@ -22,6 +22,25 @@ const pool = process.env.DATABASE_URL
       port: 5432,
     });
 
+// ── HEALTH CHECK: verifica conexión a BD al arrancar ──
+pool.query('SELECT NOW()').then(r => {
+  console.log('✅ Base de datos conectada:', r.rows[0].now);
+}).catch(err => {
+  console.error('❌ ERROR: No se pudo conectar a la base de datos.');
+  console.error('   Causa:', err.message);
+  console.error('   ¿El proyecto de Supabase está pausado? Visita: https://supabase.com/dashboard');
+});
+
+// ── ENDPOINT DE DIAGNÓSTICO ──
+app.get('/api/health', async (req, res) => {
+  try {
+    const r = await pool.query('SELECT NOW()');
+    res.json({ status: 'ok', db: 'conectada', hora: r.rows[0].now, env: process.env.DATABASE_URL ? 'Supabase' : 'Local' });
+  } catch (err) {
+    res.status(503).json({ status: 'error', db: 'sin conexión', causa: err.message, solucion: 'Verifica que el proyecto Supabase esté activo en https://supabase.com/dashboard' });
+  }
+});
+
 
 // --- ACTIVIDAD 4: Middleware de Verificación de Estatus [cite: 92, 94] ---
 // Este filtro se ejecuta antes de cualquier lógica deportiva para validar al inquilino.
