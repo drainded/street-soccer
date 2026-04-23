@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import API_URL from './config';
 
 /* ─────────────────────────────────────────
    Colores por posición del ranking
@@ -160,14 +161,14 @@ const VistaPublica = () => {
 
   const cargarDatosPublicos = async () => {
     try {
-      const resLiga = await fetch(`http://localhost:3001/api/liga-publica/${slug}`);
+      const resLiga = await fetch(`${API_URL}/api/liga-publica/${slug}`);
       if (!resLiga.ok) { const e = await resLiga.json(); throw new Error(e.error); }
       setLigaInfo(await resLiga.json());
 
       const [resEquipos, resTorneos, resTop] = await Promise.all([
-        fetch(`http://localhost:3001/api/equipos/${slug}`),
-        fetch(`http://localhost:3001/api/torneos/${slug}`),
-        fetch(`http://localhost:3001/api/top-jugadores/${slug}`),
+        fetch(`${API_URL}/api/equipos/${slug}`),
+        fetch(`${API_URL}/api/torneos/${slug}`),
+        fetch(`${API_URL}/api/top-jugadores/${slug}`),
       ]);
 
       if (resEquipos.ok)  setEquipos(await resEquipos.json());

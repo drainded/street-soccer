@@ -1,5 +1,6 @@
 //npm run dev
 import './App.css';
+import API_URL from './config';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import DashboardOrganizador from './DashboardOrganizador';
@@ -59,7 +60,7 @@ const Login = ({ setUsuario }) => {
   const handleRegistro = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3001/api/registro', {
+      const res = await fetch(`${API_URL}/api/registro`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(datosRegistro)
@@ -95,7 +96,7 @@ const Login = ({ setUsuario }) => {
 
     // 2. Si no es admin, consultamos la BD
     try {
-      const res = await fetch('http://localhost:3001/api/login', {
+      const res = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ correo: datosLogin.correoOusuario, password: datosLogin.password })
@@ -410,7 +411,7 @@ const RegistroLiga = ({ usuario, setUsuario }) => {
   const handleCrearLiga = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3001/api/suscripcion-organizador', {
+      const res = await fetch(`${API_URL}/api/suscripcion-organizador`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -491,7 +492,7 @@ const ModuloPublico = () => {
 
   // Cargar las ligas al abrir la página
   useEffect(() => {
-    fetch('http://localhost:3001/api/directorio-ligas')
+    fetch(`${API_URL}/api/directorio-ligas`)
       .then(res => res.json())
       .then(data => setLigasDisponibles(data))
       .catch(err => console.error(err));

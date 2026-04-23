@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_URL from './config';
 
 const DashboardCapitan = ({ usuario, setUsuario }) => {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const DashboardCapitan = ({ usuario, setUsuario }) => {
 
   const cargarEquipos = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/api/equipos/capitan/${usuario.id}`);
+      const res = await fetch(`${API_URL}/api/equipos/capitan/${usuario.id}`);
       if (res.ok) {
         const data = await res.json();
         setListaEquipos(data);
@@ -50,7 +51,7 @@ const DashboardCapitan = ({ usuario, setUsuario }) => {
 
   const cargarLigas = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/directorio-ligas');
+      const res = await fetch(`${API_URL}/api/directorio-ligas`);
       if (res.ok) {
         const data = await res.json();
         setLigasDisponibles(data);
@@ -67,7 +68,7 @@ const DashboardCapitan = ({ usuario, setUsuario }) => {
       return;
     }
     try {
-      const res = await fetch('http://localhost:3001/api/equipos', {
+      const res = await fetch(`${API_URL}/api/equipos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...nuevoEquipo, capitan_id: usuario.id })
@@ -87,7 +88,7 @@ const DashboardCapitan = ({ usuario, setUsuario }) => {
     setEquipoSeleccionado(equipo);
     setVistaActual('plantilla');
     try {
-      const res = await fetch(`http://localhost:3001/api/jugadores/${equipo.id}`);
+      const res = await fetch(`${API_URL}/api/jugadores/${equipo.id}`);
       if (res.ok) setPlantilla(await res.json());
     } catch (error) {
       console.error(error);
@@ -104,10 +105,10 @@ const DashboardCapitan = ({ usuario, setUsuario }) => {
     
     // Cargar plantilla para usarla en ambas pestañas
     try {
-      const resJug = await fetch(`http://localhost:3001/api/jugadores/${equipo.id}`);
+      const resJug = await fetch(`${API_URL}/api/jugadores/${equipo.id}`);
       if (resJug.ok) setPlantilla(await resJug.json());
       
-      const resTor = await fetch(`http://localhost:3001/api/equipos/${equipo.id}/torneos`);
+      const resTor = await fetch(`${API_URL}/api/equipos/${equipo.id}/torneos`);
       if (resTor.ok) setTorneosEquipo(await resTor.json());
     } catch (error) {
       console.error(error);
@@ -117,13 +118,13 @@ const DashboardCapitan = ({ usuario, setUsuario }) => {
   const guardarJugador = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3001/api/jugadores', {
+      const res = await fetch(`${API_URL}/api/jugadores`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...nuevoJugador, equipo_id: equipoSeleccionado.id })
       });
       if (res.ok) {
         setNuevoJugador({ nombre: '', rol: 'Jugador' });
-        const resList = await fetch(`http://localhost:3001/api/jugadores/${equipoSeleccionado.id}`);
+        const resList = await fetch(`${API_URL}/api/jugadores/${equipoSeleccionado.id}`);
         if (resList.ok) setPlantilla(await resList.json());
       }
     } catch (error) {
@@ -133,7 +134,7 @@ const DashboardCapitan = ({ usuario, setUsuario }) => {
 
   const cargarEstadisticasGlobales = async (jugador_id) => {
     try {
-      const res = await fetch(`http://localhost:3001/api/estadisticas/jugador/${jugador_id}/global`);
+      const res = await fetch(`${API_URL}/api/estadisticas/jugador/${jugador_id}/global`);
       if (res.ok) {
         setEstadisticasGlobales(await res.json());
       }
@@ -147,7 +148,7 @@ const DashboardCapitan = ({ usuario, setUsuario }) => {
     setPartidoSeleccionado(null);
     setJugadorSeleccionado(null);
     try {
-      const res = await fetch(`http://localhost:3001/api/equipos/${equipoSeleccionado.id}/torneo/${torneo.id}/partidos`);
+      const res = await fetch(`${API_URL}/api/equipos/${equipoSeleccionado.id}/torneo/${torneo.id}/partidos`);
       if (res.ok) setPartidosEquipo(await res.json());
     } catch (error) {
       console.error(error);
@@ -162,7 +163,7 @@ const DashboardCapitan = ({ usuario, setUsuario }) => {
   const cargarEstadisticasJugadorPartido = async (jugador) => {
     setJugadorSeleccionado(jugador);
     try {
-      const res = await fetch(`http://localhost:3001/api/estadisticas/jugador/${jugador.id}/partido/${partidoSeleccionado.id}`);
+      const res = await fetch(`${API_URL}/api/estadisticas/jugador/${jugador.id}/partido/${partidoSeleccionado.id}`);
       if (res.ok) {
         const data = await res.json();
         setEstadisticasActuales(data);
@@ -187,7 +188,7 @@ const DashboardCapitan = ({ usuario, setUsuario }) => {
   const guardarEstadisticasPartido = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:3001/api/estadisticas/jugador/${jugadorSeleccionado.id}/partido/${partidoSeleccionado.id}`, {
+      const res = await fetch(`${API_URL}/api/estadisticas/jugador/${jugadorSeleccionado.id}/partido/${partidoSeleccionado.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(estadisticasActuales)

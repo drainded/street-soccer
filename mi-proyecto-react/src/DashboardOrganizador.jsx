@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_URL from './config';
 
 const DashboardOrganizador = ({ usuario, setUsuario }) => {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
 
   const verificarAcceso = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/api/estatus-liga/${usuario.slug_liga}`);
+      const res = await fetch(`${API_URL}/api/estatus-liga/${usuario.slug_liga}`);
       if (res.ok) {
         const data = await res.json();
 
@@ -68,7 +69,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
 
   const cargarEquipos = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/api/equipos/${usuario.slug_liga}`);
+      const res = await fetch(`${API_URL}/api/equipos/${usuario.slug_liga}`);
       if (res.ok) {
         const data = await res.json();
         setListaEquipos(data);
@@ -80,7 +81,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
 
   const cargarCanchas = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/api/canchas/${usuario.slug_liga}`);
+      const res = await fetch(`${API_URL}/api/canchas/${usuario.slug_liga}`);
       if (res.ok) {
         const data = await res.json();
         setListaCanchas(data);
@@ -106,7 +107,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
     const nombreAEnviar = usuario.nombre_liga || datosSuscripcion.nombre_liga;
 
     try {
-      const res = await fetch('http://localhost:3001/api/suscripcion-organizador', {
+      const res = await fetch(`${API_URL}/api/suscripcion-organizador`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -130,7 +131,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
   const guardarTorneo = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3001/api/torneos', {
+      const res = await fetch(`${API_URL}/api/torneos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...nuevoTorneo, slug_liga: datosSuscripcion.subdominio_o_slug || usuario.slug_liga })
@@ -140,7 +141,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
         
         // Asignar árbitro si se eligió
         if (nuevoTorneo.arbitro_id) {
-          await fetch('http://localhost:3001/api/torneo-arbitros', {
+          await fetch(`${API_URL}/api/torneo-arbitros`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ torneo_id: torneoCreado.id, arbitro_id: nuevoTorneo.arbitro_id })
@@ -160,7 +161,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
   const guardarEquipo = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3001/api/equipos', {
+      const res = await fetch(`${API_URL}/api/equipos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...nuevoEquipo, slug_liga: datosSuscripcion.subdominio_o_slug || 'demo' })
@@ -191,7 +192,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
 
   const cargarTorneos = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/api/torneos/${usuario.slug_liga}`);
+      const res = await fetch(`${API_URL}/api/torneos/${usuario.slug_liga}`);
       if (res.ok) {
         const data = await res.json();
         setListaTorneos(data);
@@ -205,7 +206,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
 
   const cargarArbitros = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/api/arbitros/${usuario.slug_liga}`);
+      const res = await fetch(`${API_URL}/api/arbitros/${usuario.slug_liga}`);
       if (res.ok) {
         const data = await res.json();
         setListaArbitros(data);
@@ -222,13 +223,13 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
 
     // Cargar los partidos de este torneo
     try {
-      const res = await fetch(`http://localhost:3001/api/partidos/${torneo.id}`);
+      const res = await fetch(`${API_URL}/api/partidos/${torneo.id}`);
       if (res.ok) {
         const data = await res.json();
         setListaPartidos(data);
       }
 
-      const resArb = await fetch(`http://localhost:3001/api/torneo-arbitros/${torneo.id}`);
+      const resArb = await fetch(`${API_URL}/api/torneo-arbitros/${torneo.id}`);
       if (resArb.ok) setArbitrosTorneo(await resArb.json());
 
     } catch (error) {
@@ -240,7 +241,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
     e.preventDefault();
     try {
       // Registrar ambos equipos en el torneo si es necesario (el backend puede manejar duplicados o lo hacemos para asegurar)
-      await fetch('http://localhost:3001/api/torneo-equipos', {
+      await fetch(`${API_URL}/api/torneo-equipos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -249,7 +250,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
         })
       });
 
-      const res = await fetch('http://localhost:3001/api/partidos', {
+      const res = await fetch(`${API_URL}/api/partidos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...nuevoPartido, torneo_id: torneoSeleccionado.id })
@@ -270,7 +271,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
     setEquipoSeleccionado(equipo);
     setVistaActual('plantilla');
     try {
-      const res = await fetch(`http://localhost:3001/api/jugadores/${equipo.id}`);
+      const res = await fetch(`${API_URL}/api/jugadores/${equipo.id}`);
       if (res.ok) {
         const data = await res.json();
         setListaJugadores(data);
@@ -283,7 +284,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
   const guardarJugador = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3001/api/jugadores', {
+      const res = await fetch(`${API_URL}/api/jugadores`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...nuevoJugador, equipo_id: equipoSeleccionado.id })
@@ -619,7 +620,7 @@ const DashboardOrganizador = ({ usuario, setUsuario }) => {
               <div style={{ backgroundColor: '#000000', padding: '20px', border: '1px solid #ffffff', marginBottom: '20px' }}>
                 <form onSubmit={async (e) => {
                   e.preventDefault();
-                  const res = await fetch('http://localhost:3001/api/arbitros', {
+                  const res = await fetch(`${API_URL}/api/arbitros`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ slug_liga: usuario.slug_liga, nombre: nuevoArbitro })
                   });

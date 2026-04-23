@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_URL from './config';
 
 /* ── Colores por plan ── */
 const PLAN_META = {
@@ -21,7 +22,7 @@ function SuperAdmin() {
   const fetchLigas = async () => {
     setCargando(true);
     try {
-      const res  = await fetch('http://localhost:3001/tenants');
+      const res  = await fetch(`${API_URL}/tenants`);
       const data = await res.json();
       setLigas(data);
     } catch (err) {
@@ -35,7 +36,7 @@ function SuperAdmin() {
     const accion = estatusActual ? 'suspender' : 'activar';
     if (!window.confirm(`¿Seguro que deseas ${accion} este servicio?`)) return;
     try {
-      await fetch(`http://localhost:3001/tenants/${id}/status`, {
+      await fetch(`${API_URL}/tenants/${id}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ estatus_pago: !estatusActual }),
@@ -48,7 +49,7 @@ function SuperAdmin() {
 
   const handleSaveEdit = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3001/tenants/${id}`, {
+      const res = await fetch(`${API_URL}/tenants/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(datosEditados),
