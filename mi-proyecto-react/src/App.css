@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');
+
+:root {
+  /* Fondo principal y texto minimalista */
+  background-color: #000000;
+  color: #ffffff;
+
+  --accent: #ffffff;
+  --accent-bg: #111111;
+  --accent-border: #ffffff;
+  --border: #ffffff;
+  --text-h: #ffffff;
+  --social-bg: #000000;
+  --shadow: none;
+}
+
+/* ========================================= */
+/* ESTILOS GLOBALES STREETSOCCER (MINIMALISTA) */
+/* ========================================= */
+
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+  /* Fondo negro global */
+  color: #ffffff;
+  /* Texto blanco global */
+}
+
+/* Tipografía */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #ffffff;
+  margin-top: 0;
+}
+
+p {
+  color: #cccccc;
+  /* Un gris claro para lectura cómoda */
+}
+
+/* Enlaces globales */
+a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Utilidad para tarjetas minimalistas */
+.sombra-suave {
+  box-shadow: none;
+  border: 1px solid #ffffff;
+  background-color: #000000;
+}
+
+.titulo-hero {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 45px;
+  color: #ffffff;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+
+/* Agrega esto a tu App.css */
+.marca-sidebar {
+  color: #ffffff;
+  padding-left: 20px;
+  margin: 0 0 20px 0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+}
+
+.titulo-panel {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 35px;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #ffffff;
+  padding-bottom: 10px;
+}
+
+/* Estilo para el título principal del Módulo Público */
+.titulo-seccion-publica {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 32px;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+  display: inline-block;
+  position: relative;
+}
+
+/* Detalle visual: una pequeña barra inferior blanca */
+.titulo-seccion-publica::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 2px;
+  background-color: #ffffff;
+  margin-top: 5px;
+}
+
+.subtitulo-publico {
+  color: #cccccc;
+  font-size: 18px;
+  margin-bottom: 40px;
+}

@@ -1,0 +1,398 @@
+/* Importar fuentes separadas para evitar errores de carga */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
+/* Reset para asegurarnos que todo ocupe el 100% sin generar doble scroll */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.landing-container {
+  min-height: 100vh;
+  width: 100%;
+  background-image: url('/assetsinterfaz/fondo_cancha.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Header */
+.landing-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 30px; /* Reducido para hacer la barra más pequeña */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  background-color: #000000; /* Barra negra */
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.header-logo {
+  max-width: 150px; /* Reducido para que la barra no se haga alta */
+  filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.5));
+}
+
+/* Animación de Texto de Bienvenida */
+.animated-welcome-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative; /* Cambiado a relative para que empuje el recuadro central hacia abajo */
+  margin-top: 70px; /* Movido hacia arriba, más cerca de la barra negra */
+  margin-bottom: 10px; /* Aumentado en la misma proporción para que el recuadro principal se quede exactamente en el mismo lugar */
+  z-index: 8;
+  white-space: nowrap;
+  padding: 10px 0; /* Reducido para acercar aún más el recuadro sin cortar la sombra */
+}
+
+.animated-welcome-text {
+  position: relative;
+  display: inline-block;
+  font-family: 'Luckiest Guy', cursive; /* Fuente muy gruesa estilo cómic/graffiti */
+  font-weight: 400;
+  font-size: 46px; /* Tamaño reducido para no ocupar tanta pantalla */
+  margin: 0;
+  
+  /* Relleno con gradiente vertical estilo graffiti (Amarillo a Cyan) */
+  background: linear-gradient(180deg, #d4ff00 0%, #00e5ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  
+  /* Borde interior blanco (ligeramente más delgado) */
+  -webkit-text-stroke: 1.5px white; 
+  
+  animation: slideRight 12s linear infinite;
+  letter-spacing: 4px;
+  line-height: 1.2;
+}
+
+/* Pseudo-elemento para crear el borde negro grueso y la sombra 3D sólida */
+.animated-welcome-text::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  
+  /* Borde negro grueso por detrás del borde blanco (reducido en proporción) */
+  -webkit-text-stroke: 8px black;
+  color: transparent;
+  
+  /* Sombra sólida 3D tipo extrusión (reducida a 10px) */
+  text-shadow: 
+    1px 1px 0 #000, 2px 2px 0 #000, 3px 3px 0 #000, 4px 4px 0 #000,
+    5px 5px 0 #000, 6px 6px 0 #000, 7px 7px 0 #000, 8px 8px 0 #000,
+    9px 9px 0 #000, 10px 10px 0 #000;
+}
+
+@keyframes slideRight {
+  0% { transform: translateX(-100%); opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(100vw); opacity: 0; }
+}
+
+/* Main Content */
+.landing-main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px; /* Reducido, ya que el texto animado superior ocupa espacio en el flujo */
+  padding-bottom: 20px;
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 1800px; /* Aumentado para evitar que las imágenes laterales aprieten el recuadro central */
+  padding: 0 20px;
+  margin-top: -80px; /* Mueve el recuadro negro y los jugadores hacia arriba */
+}
+
+/* Caja Central con Glassmorphism */
+.caja-central {
+  background: rgba(0, 0, 0, 0.65); /* Fondo negro semi transparente */
+  backdrop-filter: blur(8px); /* Desenfoque tipo cristal */
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde blanco fino suavizado */
+  padding: 25px 80px 60px 80px; /* Reducido el padding superior */
+  text-align: center;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  width: 100%; /* Forzar a ocupar el espacio disponible */
+  max-width: 950px; /* Aumentado para hacerlo más ancho horizontalmente */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5;
+  border-radius: 40px; /* Mucho más redondeado para que se vea menos rectangular */
+}
+
+.caja-contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Alineado al centro porque ya no hay logo */
+  gap: 15px;
+  width: 100%;
+}
+
+.texto-descripcion {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 34px; /* Letra grande y legible */
+  color: white;
+  margin: 0;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Animaciones Laterales */
+.jugador-container {
+  flex-shrink: 0;
+  width: 450px; /* Aumentado de 350px para hacer las imágenes más grandes */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.jugador-animacion {
+  width: 100%;
+  max-width: 500px; /* Aumentado de 400px para permitir mayor tamaño */
+  object-fit: contain;
+  filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.6));
+}
+
+/* Contenedor y clases para la secuencia de imágenes con transición */
+.secuencia-container {
+  display: grid;
+  width: 100%;
+}
+
+.secuencia-imagen {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.secuencia-imagen.activa {
+  opacity: 1;
+}
+
+/* Flip para simetría */
+.jugador-flip {
+  transform: scaleX(-1);
+}
+
+/* Sección Inferior de Botones */
+.landing-seccion-inferior {
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #111111;
+  padding: 60px 20px;
+  box-sizing: border-box;
+}
+
+.texto-opciones {
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 40px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.landing-botones {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 30px;
+}
+
+.btn-landing {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 32px; /* Aumentado */
+  padding: 0; /* Padding en 0 para respetar dimensiones exactas */
+  text-decoration: none;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.9);
+  background-size: 100% 100%; /* Llenar completamente */
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  width: 373px;
+  height: 663px; /* Tamaño exacto de las imágenes */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  text-align: center;
+}
+
+/* Efecto de iluminación translúcida */
+.btn-landing::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0);
+  transition: background-color 0.3s ease;
+  z-index: 1;
+}
+
+.btn-landing:hover::after {
+  background-color: rgba(255, 255, 255, 0.25); /* Se ilumina un poco de forma translúcida */
+}
+
+.btn-landing:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+/* El texto se mantiene por encima del overlay de iluminación */
+.btn-landing span {
+  position: relative;
+  z-index: 2;
+}
+
+.btn-login-inferior {
+  background-image: url('/assetsinterfaz/boton_iniciarsesion.png');
+}
+
+.btn-publico-inferior {
+  background-image: url('/assetsinterfaz/boton_torneos.png');
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .jugador-container { width: 250px; }
+  .texto-bienvenido, .texto-secundario { font-size: 26px; }
+  .logo-central { max-width: 140px; }
+}
+
+@media (max-width: 992px) {
+  .jugador-container { width: 180px; }
+  .caja-central { padding: 40px; }
+  .texto-bienvenido, .texto-secundario { font-size: 22px; }
+}
+
+@media (max-width: 768px) {
+  .landing-header { padding: 15px 20px; }
+  .header-logo { max-width: 180px; }
+  .content-wrapper {
+    flex-direction: column;
+    padding-top: 20px;
+  }
+  
+  .jugador-container {
+    display: none; /* Ocultamos los jugadores en móvil para que no estorben */
+  }
+
+  .caja-central {
+    padding: 30px 20px;
+    margin: 0 15px;
+  }
+
+  .linea-bienvenida {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .caja-contenido {
+    align-items: center;
+    text-align: center;
+  }
+
+  .texto-bienvenido, .texto-secundario { font-size: 20px; }
+  .logo-central { max-width: 150px; }
+  
+  .landing-botones {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .btn-landing {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Flecha de Scroll */
+.scroll-arrow-container {
+  position: relative;
+  align-self: center;
+  margin-top: -50px; /* Margen negativo para jalar la flecha hacia arriba, acercándola al recuadro */
+  margin-bottom: 20px;
+  transition: opacity 0.4s ease, visibility 0.4s;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-arrow-container.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.scroll-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px; /* Texto más pequeño */
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px; /* Espaciado ajustado al nuevo tamaño */
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.scroll-arrow {
+  width: 14px; /* Flecha más pequeña */
+  height: 14px; /* Flecha más pequeña */
+  border-right: 3px solid white; /* Borde proporcionalmente más fino */
+  border-bottom: 3px solid white;
+  transform: rotate(45deg);
+  animation: bounce 2s infinite;
+  filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.8));
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0) rotate(45deg);
+  }
+  40% {
+    transform: translateY(-15px) rotate(45deg);
+  }
+  60% {
+    transform: translateY(-7px) rotate(45deg);
+  }
+}
