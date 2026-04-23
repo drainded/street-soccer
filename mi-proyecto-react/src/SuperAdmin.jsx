@@ -15,18 +15,22 @@ function SuperAdmin() {
   const [editandoId,  setEditandoId]  = useState(null);
   const [datosEditados, setDatosEditados] = useState({ nombre_liga: '', plan: 'Bronce' });
   const [cargando,    setCargando]    = useState(true);
+  const [errorAPI,    setErrorAPI]    = useState(null);
 
   useEffect(() => { fetchLigas(); }, []);
 
   /* ── API ── */
   const fetchLigas = async () => {
     setCargando(true);
+    setErrorAPI(null);
     try {
       const res  = await fetch(`${API_URL}/tenants`);
+      if (!res.ok) throw new Error(`El servidor respondió con error ${res.status}`);
       const data = await res.json();
       setLigas(data);
     } catch (err) {
       console.error('Error al cargar ligas:', err);
+      setErrorAPI(err.message || 'No se pudo conectar al servidor. Verifica que el backend esté corriendo.');
     } finally {
       setCargando(false);
     }
@@ -130,6 +134,18 @@ function SuperAdmin() {
           {/* ── TABLA ── */}
           {cargando ? (
             <div style={{ textAlign: 'center', padding: '60px', color: '#555' }}>Cargando ligas...</div>
+          ) : errorAPI ? (
+            <div style={{ textAlign: 'center', padding: '60px', color: '#ef4444', border: '1px dashed #ef444444', borderRadius: '14px' }}>
+              <div style={{ fontSize: '40px', marginBottom: '12px' }}>⚠️</div>
+              <div style={{ fontWeight: 700, marginBottom: '8px' }}>Error al conectar con el servidor</div>
+              <div style={{ fontSize: '13px', color: '#888', marginBottom: '20px' }}>{errorAPI}</div>
+              <button
+                onClick={fetchLigas}
+                style={{ background: '#ef4444', border: 'none', color: '#fff', padding: '10px 24px', borderRadius: '8px', cursor: 'pointer', fontFamily: "'Outfit', sans-serif", fontWeight: 700 }}
+              >
+                ↻ Reintentar
+              </button>
+            </div>
           ) : ligas.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px', color: '#444', border: '1px dashed #222', borderRadius: '14px' }}>
               <div style={{ fontSize: '40px', marginBottom: '12px' }}>📋</div>

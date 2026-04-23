@@ -67,20 +67,24 @@ const Login = ({ setUsuario }) => {
       });
       if (res.ok) {
         const data = await res.json();
-        // Guardamos al usuario y lo mandamos al flujo correspondiente
         setUsuario({ ...data, suscrito: false, slug_liga: null });
         alert(`¡Bienvenido a STREETSOCCER, ${data.nombre}!`);
-        
         if (data.tipo_usuario === 'Lider') {
           navigate('/pago');
         } else {
           navigate('/dashboard-capitan');
         }
       } else {
-        alert("El correo ya está en uso.");
+        const errData = await res.json().catch(() => ({}));
+        if (res.status === 409) {
+          alert("❌ Ese correo electrónico ya está registrado. Intenta con otro correo o inicia sesión.");
+        } else {
+          alert(`❌ Error al registrar: ${errData.error || 'Error desconocido del servidor'}`);
+        }
       }
     } catch (err) {
       console.error(err);
+      alert("❌ No se pudo conectar al servidor. Verifica tu conexión e inténtalo de nuevo.");
     }
   };
 

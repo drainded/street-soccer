@@ -128,7 +128,12 @@ app.post('/api/registro', async (req, res) => {
     );
     res.json(result.rows[0]);
   } catch (err) {
-    res.status(400).json({ error: "El correo ya está registrado o hubo un error." });
+    console.error('Error en /api/registro:', err.message, '| Código:', err.code);
+    // Código 23505 = violación de restricción unique (correo duplicado)
+    if (err.code === '23505') {
+      return res.status(409).json({ error: "El correo ya está registrado.", code: 'EMAIL_DUPLICATE' });
+    }
+    res.status(500).json({ error: "Error interno del servidor al registrar.", detalle: err.message });
   }
 });
 
